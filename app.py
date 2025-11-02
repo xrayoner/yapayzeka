@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import math, random, json
-import cards# CR kartları için
+import cards  # CR kartları için
+import os
 
 app = Flask(__name__)
 
@@ -82,41 +83,36 @@ def get_response():
 
     # 💬 Sohbet
     elif any(s in user_input_low for s in ["merhaba", "maraba", "merabe", "meraba", "mehraba", "selamün aleyküm", "hello", "hi"]):
-      return jsonify(response="Sanada merhaba, nasılsın? 😊")
+        return jsonify(response="Sanada merhaba, nasılsın? 😊")
 
     elif any(s in user_input_low for s in ["nasılsın", "nasilsın", "nasilsun", "nasulsun", "nbr"]):
-      return jsonify(response="İyiyim, sen nasılsın? 😊")
+        return jsonify(response="İyiyim, sen nasılsın? 😊")
 
     elif any(s in user_input_low for s in ["iyiyim", "iym", "iyim", "güzel", "müq", "müp"]):
-      return jsonify(response="İyi olmana sevindim! 😊")
+        return jsonify(response="İyi olmana sevindim! 😊")
 
     elif any(s in user_input_low for s in ["kötü", "bok gibi"]):
-      return jsonify(response="Üzüldüm. Noldu, anlatmak ister misin?")
+        return jsonify(response="Üzüldüm. Noldu, anlatmak ister misin?")
 
     elif any(s in user_input_low for s in ["tşk", "tsk", "teşekkürler", "sağol", "sagol", "taşakkürler"]):
-      return jsonify(response="Rica ederim. Sorduğun için ben sana sağol.")
+        return jsonify(response="Rica ederim. Sorduğun için ben sana sağol.")
 
     elif "kim tarafından yazıl" in user_input_low:
-      return jsonify(response="Ben Hasan Efe tarafından yazıldım! 🧠")
+        return jsonify(response="Ben Hasan Efe tarafından yazıldım! 🧠")
 
     elif "chatgpt mi senmi" in user_input_low or "gemini mi senmi" in user_input_low:
-      return jsonify(response="Benim kendi yanıtlarım var, ben.")
+        return jsonify(response="Benim kendi yanıtlarım var, ben.")
 
     elif "81 ili say" in user_input_low:
-      return jsonify(response="Elbette, Türkiye'deki 81 ili liste şeklinde ve alfabetik sırayla ayrıntılı bir şekilde sunuyorum. "
-                            "Adana, Adıyaman, Afyonkarahisar, Ağrı, Amasya, Ankara, Antalya, Artvin, Aydın, Balıkesir, Bilecik, "
-                            "Bingöl, Bitlis, Bolu, Burdur, Bursa, Çanakkale, Çankırı, Çorum, Denizli, Diyarbakır, Düzce, Edirne, "
-                            "Elazığ, Erzincan, Erzurum, Eskişehir, Gaziantep, Giresun, Gümüşhane, Hakkari, Hatay, Iğdır, Isparta, "
-                            "İstanbul, İzmir, Kahramanmaraş, Karabük, Karaman, Kars, Kastamonu, Kayseri, Kilis, Kırıkkale, Kırklareli, "
-                            "Kırşehir, Kocaeli, Konya, Kütahya, Malatya, Manisa, Mardin, Mersin, Muğla, Muş, Nevşehir, Niğde, Ordu, "
-                            "Osmaniye, Rize, Sakarya, Samsun, Şanlıurfa, Siirt, Sinop, Sivas, Şırnak, Tekirdağ, Tokat, Trabzon, "
-                            "Tunceli, Uşak, Van, Yalova, Yozgat, Zonguldak, Aksaray, Bayburt.")
-if __name__ == "__main__":
-    app.run(debug=True)
+        return jsonify(response="Elbette, Türkiye'deki 81 ili liste şeklinde ve alfabetik sırayla ayrıntılı bir şekilde sunuyorum. "
+                               "Adana, Adıyaman, Afyonkarahisar, Ağrı, Amasya, Ankara, Antalya, Artvin, Aydın, Balıkesir, Bilecik, "
+                               "Bingöl, Bitlis, Bolu, Burdur, Bursa, Çanakkale, Çankırı, Çorum, Denizli, Diyarbakır, Düzce, Edirne, "
+                               "Elazığ, Erzincan, Erzurum, Eskişehir, Gaziantep, Giresun, Gümüşhane, Hakkari, Hatay, Iğdır, Isparta, "
+                               "İstanbul, İzmir, Kahramanmaraş, Karabük, Karaman, Kars, Kastamonu, Kayseri, Kilis, Kırıkkale, Kırklareli, "
+                               "Kırşehir, Kocaeli, Konya, Kütahya, Malatya, Manisa, Mardin, Mersin, Muğla, Muş, Nevşehir, Niğde, Ordu, "
+                               "Osmaniye, Rize, Sakarya, Samsun, Şanlıurfa, Siirt, Sinop, Sivas, Şırnak, Tekirdağ, Tokat, Trabzon, "
+                               "Tunceli, Uşak, Van, Yalova, Yozgat, Zonguldak, Aksaray, Bayburt.")
 
 if __name__ == "__main__":
-    import os
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
-
-
