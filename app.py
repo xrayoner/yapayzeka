@@ -85,7 +85,7 @@ def get_response():
     elif any(s in user_input_low for s in ["merhaba", "maraba", "merabe", "meraba", "mehraba", "selamün aleyküm", "hello", "hi"]):
         return jsonify(response="Sanada merhaba, nasılsın? 😊")
 
-    elif any(s in user_input_low for s in ["nasılsın", "nasilsın", "nasilsun", "nasulsun", "nbr"]):
+    elif any(s in user_input_low for s in ["nasılsın", "nasilsın", "nasilsun", "nasulsun"]):
         return jsonify(response="İyiyim, sen nasılsın? 😊")
 
     elif any(s in user_input_low for s in ["iyiyim", "iym", "iyim", "güzel", "müq", "müp", "bende iyi"]):
@@ -119,5 +119,6 @@ def get_response():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
 
 
