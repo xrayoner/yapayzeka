@@ -5,6 +5,21 @@ document.getElementById("userInput").addEventListener("keypress", function(event
         sendMessage();
     }
 });
+function showHamzaOnce() {
+    let popup = document.getElementById("hamzaPopup");
+    if (!popup) {
+        popup = document.createElement("div");
+        popup.id = "hamzaPopup";
+        popup.innerHTML = `<img src="/static/hamza.jpg" alt="hamza">`;
+        document.body.appendChild(popup);
+    }
+    popup.classList.add("visible");
+    setTimeout(() => {
+        popup.classList.remove("visible");
+        // İsterseniz tamamen kaldırmak için:
+        // setTimeout(() => popup.remove(), 300);
+    }, 3000); // 3 saniye sonra kaybolur
+}
 
 function sendMessage() {
     const userInput = document.getElementById("userInput");
@@ -21,6 +36,12 @@ function sendMessage() {
     chatBox.scrollTop = chatBox.scrollHeight;
 
     userInput.value = "";
+
+    // Eğer tetikleyici mesajsa popup göster ve backend'e gönderme
+    if (message.toLowerCase() === "hamza 2.0") {
+        showHamzaOnce();
+        return;
+    }
 
     // Backend'e gönder
     fetch('/get_response', {
