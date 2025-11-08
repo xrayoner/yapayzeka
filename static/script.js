@@ -18,6 +18,16 @@ function showHamzaOnce() {
     popup.classList.add("visible");
     if (license) license.classList.add("visible");
 
+    // Bot mesajı ekle
+    const chatBox = document.getElementById("chatBox");
+    if (chatBox) {
+        const botMsg = document.createElement("div");
+        botMsg.classList.add("message-box", "bot-message");
+        botMsg.textContent = "BU RESİM HAMZA'DAN İZİN ALINMIŞTIR. KALDIRMAK İSTİYORSANIZ hasanefeoner10@gmail.com adresine e-mail atınız";
+        chatBox.appendChild(botMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
     setTimeout(() => {
         popup.classList.remove("visible");
         if (license) license.classList.remove("visible");
