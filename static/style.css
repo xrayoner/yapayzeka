@@ -119,3 +119,28 @@ body {
     pointer-events: auto;
     transform: translateY(0);
 }
+
+/* Kapak popup (sayfa açıldığında görünen) */
+#coverPopup {
+    position: fixed;
+    left: 50%;
+    top: 12%;
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 9998;
+}
+#coverPopup.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+}
+#coverPopup img {
+    max-width: 640px;
+    max-height: 360px;
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
