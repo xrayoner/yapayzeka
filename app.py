@@ -96,7 +96,10 @@ def get_response():
 
     elif any(s in user_input_low for s in ["kötü", "bok gibi"]):
         return jsonify(response="Üzüldüm. Noldu, anlatmak ister misin?")
-
+    
+    elif any(s in user_input_low for s in ["kanka", "şimdi",]):
+        return jsonify(response="Evet, devam et lütfen.")
+    
     elif any(s in user_input_low for s in ["tşk", "tsk", "teşekkürler", "sağol", "sagol", "taşakkürler"]):
         return jsonify(response="Rica ederim. Sorduğun için ben sana sağol.")
 
