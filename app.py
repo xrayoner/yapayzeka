@@ -3,6 +3,17 @@ import math, random, json
 import cards  # CR kartları için
 import os
 
+# yardımcı: n sayısının karekökünü sadeleştir (outside, inside) döner
+def simplify_radical(n: int):
+    if n < 0:
+        return None  # negatifler için ayrı işleme gerekirse genişlet
+    max_k = math.isqrt(n)
+    for outside in range(max_k, 0, -1):
+        if n % (outside * outside) == 0:
+            inside = n // (outside * outside)
+            return outside, inside
+    return 1, n
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -14,6 +25,50 @@ def get_response():
     user_input = request.json["message"]
     user_input_low = user_input.lower().strip()
 
+    # Yeni: "çöz" veya "nedir" tetiklemesiyle birden fazla matematiksel işlemi otomatik algılama
+    if any(w in user_input_low for w in ["çöz", "nedir"]):
+        import re
+        # Sayıları yakala (ilk iki sayı kullanılır)
+        nums = re.findall(r"-?\d+", user_input)
+        # Karekök varsa tek sayı ile hesapla
+        if any(w in user_input_low for w in ["kök", "karekök", "karekökü"]):
+            if not nums:
+                return jsonify(response="⚠️ Karekök için cümlede sayı bulunamadı.")
+            try:
+                n = int(nums[0])
+                res = simplify_radical(abs(n))
+                if res is None:
+                    return jsonify(response="⚠️ Negatif sayının gerçek karekökü yok.")
+                outside, inside = res
+                if inside == 1:
+                    return jsonify(response=f"{n}'nin karekökü = {outside}")
+                else:
+                    if outside == 1:
+                        return jsonify(response=f"{n} = kök {inside}")
+                    return jsonify(response=f"{n} = {outside} kök {inside}")
+            except:
+                return jsonify(response="⚠️ Karekök hesaplanamadı.")
+        # EBOB / EKOK / Aralarında asal talepleri (iki sayı bekler)
+        if any(w in user_input_low for w in ["ebob", "ekok", "aralarında asal", "aa "]):
+            if len(nums) < 2:
+                return jsonify(response="⚠️ Lütfen iki sayı belirtin.")
+            try:
+                a, b = int(nums[0]), int(nums[1])
+                if "ebob" in user_input_low:
+                    sonuc = math.gcd(a, b)
+                    return jsonify(response=f"{a} ile {b} sayılarının EBOB'u: {sonuc}")
+                if "ekok" in user_input_low:
+                    ebob = math.gcd(a, b)
+                    ekok = (a * b) // ebob
+                    return jsonify(response=f"{a} ile {b} sayılarının EKOK'u: {ekok}")
+                if "aralarında" in user_input_low and "asal" in user_input_low or user_input_low.startswith("aa "):
+                    ebob = math.gcd(a, b)
+                    if ebob == 1:
+                        return jsonify(response=f"✅ {a} ile {b} aralarında asaldır.")
+                    else:
+                        return jsonify(response=f"❌ Hayır, {a} ile {b}, {ebob} sayısına bölünür.")
+            except:
+                return jsonify(response="⚠️ Sayılar işlenirken hata oluştu.")
     # 🎮 CR Deste
     if user_input_low == "cr deste":
         deste = cards.get_random_deck()
@@ -67,17 +122,21 @@ def get_response():
         except:
             return jsonify(response="⚠️ Kullanım: aa <sayı1> <sayı2>")
 
-    # √ Kök Hesaplama
+    # √ Kök Hesaplama (kök <sayı>)
     elif user_input_low.startswith("kök "):
         try:
             _, sayi = user_input.split()
             sayi = int(sayi)
-            kok = int(math.sqrt(sayi))
-            kalan = sayi - kok**2
-            if kalan == 0:
-                return jsonify(response=f"{sayi}'nin karekökü = {kok}")
+            res = simplify_radical(abs(sayi))
+            if res is None:
+                return jsonify(response="⚠️ Negatif sayının gerçek karekökü yok.")
+            outside, inside = res
+            if inside == 1:
+                return jsonify(response=f"{sayi}'nin karekökü = {outside}")
             else:
-                return jsonify(response=f"{sayi} = {kok} kök {kalan}")
+                if outside == 1:
+                    return jsonify(response=f"{sayi} = kök {inside}")
+                return jsonify(response=f"{sayi} = {outside} kök {inside}")
         except:
             return jsonify(response="⚠️ Kullanım: kök <sayı>")
 
@@ -125,7 +184,3 @@ def get_response():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
-
-
-
-
