@@ -23,7 +23,7 @@ function showHamzaOnce() {
     if (chatBox) {
         const botMsg = document.createElement("div");
         botMsg.classList.add("message-box", "bot-message");
-        botMsg.textContent = "BU RESİM HAMZA'DAN İZİN ALINMIŞTIR. KALDIRMAK İSTİYORSANIZ hasanefeoner10@gmail.com adresine e-mail atınız";
+        botMsg.textContent = "BU RESİM HAMZA YAVUZ'DAN İZİN ALINMIŞTIR. KALDIRMAK İSTİYORSANIZ hasanefeoner10@gmail.com adresine e-mail atınız";
         chatBox.appendChild(botMsg);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
@@ -75,3 +75,17 @@ function sendMessage() {
     })
     .catch(error => console.error("Hata:", error));
 }
+
+// Sayfa açıldığında kapak fotoğrafını göster
+document.addEventListener("DOMContentLoaded", () => {
+    let cover = document.getElementById("coverPopup");
+    if (!cover) {
+        cover = document.createElement("div");
+        cover.id = "coverPopup";
+        cover.innerHTML = `<img src="/static/cover.jpg" alt="kapak">`;
+        document.body.appendChild(cover);
+    }
+    // Görünür yap ve 3 saniye sonra kaybolsun
+    cover.classList.add("visible");
+    setTimeout(() => cover.classList.remove("visible"), 3000);
+});
