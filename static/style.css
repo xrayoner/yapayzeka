@@ -96,3 +96,26 @@ body {
     border: 3px solid rgba(255,255,255,0.12);
     box-shadow: 0 8px 20px rgba(0,0,0,0.6);
 }
+
+/* Sol alt izin yazısı (başta gizli, popup ile görünürleşir) */
+#license {
+    position: fixed;
+    left: 12px;
+    bottom: 12px;
+    background: rgba(0,0,0,0.45);
+    color: #ddd;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    z-index: 10000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateY(6px);
+}
+#license.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
