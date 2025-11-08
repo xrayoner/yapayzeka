@@ -13,9 +13,14 @@ function showHamzaOnce() {
         popup.innerHTML = `<img src="/static/hamza.jpg" alt="hamza">`;
         document.body.appendChild(popup);
     }
+
+    const license = document.getElementById("license");
     popup.classList.add("visible");
+    if (license) license.classList.add("visible");
+
     setTimeout(() => {
         popup.classList.remove("visible");
+        if (license) license.classList.remove("visible");
         // İsterseniz tamamen kaldırmak için:
         // setTimeout(() => popup.remove(), 300);
     }, 3000); // 3 saniye sonra kaybolur
